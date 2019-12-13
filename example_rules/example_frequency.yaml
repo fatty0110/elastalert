@@ -1,0 +1,67 @@
+# Alert when the rate of events exceeds a threshold
+
+# (Optional)
+# Elasticsearch host
+ es_host: 10.0.20.204
+
+# (Optional)
+# Elasticsearch port
+ es_port: 9200
+
+# (OptionaL) Connect with SSL to Elasticsearch
+#use_ssl: True
+
+# (Optional) basic-auth username and password for Elasticsearch
+ es_username: admin
+ es_password: 1qaz@WSX3edc
+
+# (Required)
+# Rule name, must be unique
+ name: "Example rule"
+
+# (Required)
+# Type of alert.
+# the frequency rule type alerts when num_events events occur with timeframe time
+ type: frequency
+
+# (Required)
+# Index to search, wildcard supported
+ index: rsyslog-*
+
+# (Required, frequency specific)
+# Alert when this many documents matching the query occur within a timeframe
+ num_events: 1
+
+# (Required, frequency specific)
+# num_events must occur within this amount of time to trigger an alert
+ timeframe:
+  #hours: 4
+  minutes: 1
+  #seconds: 
+# (Required)
+# A list of Elasticsearch filters used for find events
+# These filters are joined with AND and nested in a filtered query
+# For more info: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html
+
+
+ filter:
+#- term:
+#    some_field: "some_value"
+ - query:
+    query_string:
+      query: "host_ip:10.0.20.205"
+
+ smtp_host: "msa.hinet.net"
+ smtp_port: 25
+ smtp_ssl: false
+ 
+# staler(Required)
+# The alert is use when a match is found
+ alert:
+   - email:
+       email: "namoh@hcst.com.tw"
+       from_addr: "namoh@amoiisacat.one"
+# (required, email specific)
+# a list of email addresses to send alerts to
+ #email:
+# - "username@domain.com"
